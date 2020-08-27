@@ -110,7 +110,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdcommenter'
 Plug 'chaoren/vim-wordmotion'
 Plug 'justinmk/vim-sneak'
-Plug 'luochen1990/rainbow'
+" Plug 'luochen1990/rainbow'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 " Plug 'sbdchd/vim-shebang'
 " Plug 'mattn/emmet-vim'
@@ -126,7 +126,7 @@ if g:vimIsInTmux == 1
 endif
 
 " Tags
-" Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
 " Python related
 Plug 'vim-python/python-syntax'
@@ -268,6 +268,8 @@ colorscheme onedark
 
 " colorscheme embark
 " colorscheme challenger_deep
+
+hi Normal guibg=NONE ctermbg=NONE
 
 " Indent line level indicators
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -630,6 +632,7 @@ lua << EOF
         require'diagnostic'.on_attach()
         require'completion'.on_attach()
     end
+    nvim_lsp.clangd.setup({on_attach=on_attach_vim})
     nvim_lsp.texlab.setup({on_attach=on_attach_vim})
     nvim_lsp.julials.setup({on_attach=on_attach_vim})
     nvim_lsp.pyls.setup{
@@ -874,17 +877,17 @@ nnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(0)<CR>
 vnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(1)<CR>
 
 " activate tagbar
-" nmap <Leader>tb :TagbarToggle<CR>
+nmap <Leader>tb :TagbarToggle<CR>
 
 " ctags config location
-" let g:tagbar_ctags_options = ['NONE', $HOME.'/.config/ctags']
+let g:tagbar_ctags_options = ['NONE', $HOME.'/.config/dotfiles/ctags']
 
 " tagbar for Julia
-" let g:tagbar_type_julia = {
-"     \ 'ctagstype' : 'julia',
-"     \ 'kinds'     : [
-"         \ 't:struct', 'f:function', 'm:macro', 'c:const']
-"     \ }
+let g:tagbar_type_julia = {
+    \ 'ctagstype' : 'julia',
+    \ 'kinds'     : [
+        \ 't:struct', 'f:function', 'm:macro', 'c:const']
+    \ }
 
 " ============================================================================
 " LaTeX {{{1

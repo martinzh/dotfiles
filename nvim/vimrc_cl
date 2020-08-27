@@ -23,9 +23,6 @@
 if &compatible
    set nocompatible
 endif
-"
-" let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
-" set nocompatible
 
 " ============================================================================
 " Plugins {{{1
@@ -81,7 +78,6 @@ Plug 'justinmk/vim-sneak'
 
 " Syntax
 Plug 'octol/vim-cpp-enhanced-highlight'
-" Plug 'ivanov/vim-ipython'
 
 " Python related
 Plug 'vim-python/python-syntax'
@@ -91,13 +87,6 @@ Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 " Julia related
 Plug 'mroavi/vim-julia-cell'
 Plug 'JuliaEditorSupport/julia-vim'
-
-" Taskwarrior and Wiki
-" Plug 'powerman/vim-plugin-AnsiEsc'
-" Plug 'majutsushi/tagbar'
-" Plug 'blindFS/vim-taskwarrior'
-" Plug 'vimwiki/vimwiki', { 'as' : 'vimwiki', 'branch' : 'dev'}
-" Plug 'tbabej/taskwiki'
 
 call plug#end()
 
@@ -165,8 +154,6 @@ set encoding=utf8
 " if (has("termguicolors"))
 "     set termguicolors
 " endif
-
-" set guifont=IBM\ Plex\ Mono:h14
 
 colorscheme onedark
 
@@ -252,10 +239,8 @@ let g:NERDCommentEmptyLines = 1
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger='<tab>'
-
 " shortcut to go to next position
 let g:UltiSnipsJumpForwardTrigger='<c-j>'
-
 " shortcut to go to previous position
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
@@ -278,6 +263,8 @@ let g:better_whitespace_skip_empty_lines=1
 
 " nnoremap ]w :NextTrailingWhitespace<CR>
 " nnoremap [w :PrevTrailingWhitespace<CR>
+
+" ============================================================================
 " Easymotion {{{1
 " ============================================================================
 
@@ -416,6 +403,7 @@ autocmd FileType python nnoremap <Leader>jp :IPythonCellPrevCell<CR>
 autocmd FileType python nnoremap <Leader>jn :IPythonCellNextCell<CR>
 autocmd FileType python nnoremap <Leader>jx :IPythonCellClose<CR>
 
+" ============================================================================
 " Buffers {{{1
 " ============================================================================
 
