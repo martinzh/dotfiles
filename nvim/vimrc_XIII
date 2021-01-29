@@ -24,8 +24,8 @@ if 0 | endif
 if &compatible
     set nocompatible
 endif
-"
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
+
+" let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 
 if executable('tmux') && filereadable(expand('~/.zshrc')) && $TMUX !=# ''
   let g:vimIsInTmux = 1
@@ -46,21 +46,23 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 
+" Nvim en FireFox
+" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
 " gives us lists of key bindings
 Plug 'liuchengxu/vim-which-key'
 
 " Colorschemes
-Plug 'chuling/equinusocio-material.vim'
-Plug 'sainnhe/edge'
-Plug 'sainnhe/sonokai'
-Plug 'sainnhe/forest-night'
-Plug 'skbolton/embark'
 Plug 'joshdick/onedark.vim'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'tyrannicaltoucan/vim-quantum'
-Plug 'hardcoreplayers/oceanic-material'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+" Plug 'chuling/equinusocio-material.vim'
+" Plug 'sainnhe/edge'
+" Plug 'sainnhe/sonokai'
+" Plug 'sainnhe/forest-night'
+" Plug 'skbolton/embark'
+" Plug 'tyrannicaltoucan/vim-quantum'
+" Plug 'hardcoreplayers/oceanic-material'
+" Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 
 " UI Layout
 Plug 'ryanoasis/vim-devicons'
@@ -70,15 +72,18 @@ Plug 'itchyny/lightline.vim'
 Plug 'pacha/vem-tabline'
 
 " Terminal
-Plug 'kassio/neoterm'
+" Plug 'kassio/neoterm'
 Plug 'jpalardy/vim-slime'
-" Plug 'ncm2/float-preview.nvim'
+Plug 'voldikss/vim-floaterm'
+
+" colors
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
 " Autocomplete
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+" Plug 'hrsh7th/vim-vsnip'
+" Plug 'hrsh7th/vim-vsnip-integ'
 " Plug 'zchee/deoplete-jedi'
 " Plug 'Shougo/deoplete-lsp'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -91,7 +96,7 @@ Plug 'airblade/vim-rooter'
 
 " Language Server Protocol
 Plug 'neovim/nvim-lsp'
-Plug 'nvim-lua/diagnostic-nvim'
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 
 " File manager
@@ -110,15 +115,17 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdcommenter'
 Plug 'chaoren/vim-wordmotion'
 Plug 'justinmk/vim-sneak'
+Plug 'mattn/emmet-vim'
+Plug 'Chiel92/vim-autoformat'
 " Plug 'luochen1990/rainbow'
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 " Plug 'sbdchd/vim-shebang'
-" Plug 'mattn/emmet-vim'
 
 " Syntax
 Plug 'lervag/vimtex'
 Plug 'mhinz/neovim-remote'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'mechatroner/rainbow_csv'
 
 " Tmux
 if g:vimIsInTmux == 1
@@ -164,6 +171,8 @@ set cursorline
 set splitright
 set noshowmode
 set noswapfile
+set smarttab
+set smartindent
 set is
 
 set shell=zsh
@@ -171,6 +180,9 @@ set shiftwidth=4
 set softtabstop=4
 set textwidth=110
 set colorcolumn=114
+set conceallevel=0
+
+set foldmethod=marker
 
 let g:highlightedyank_highlight_duration = 500
 
@@ -196,6 +208,12 @@ nnoremap zk mzyyP`zk
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 nnoremap <Leader>uf :! bash ~/Code/MiscScripts/rsync_figs.sh<CR>
+
+" Sample value, to keep default behaviour don't define this variable
+let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript']
+
+" Lua syntax higlight in .vim files
+let g:vimsyn_embed = 'lP'
 
 " ============================================================================
 " Which Key {{{1
@@ -327,67 +345,67 @@ function! DeleteCurrentBuffer() abort
 endfunction
 nmap <leader>d :call DeleteCurrentBuffer()<CR>
 
-let g:rainbow_conf = {
-\	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-\	'guis': [''],
-\	'cterms': [''],
-\	'operators': '_,_',
-\	'contains_prefix': 'TOP',
-\	'parentheses_options': '',
-\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-\	'separately': {
-\		'*': {},
-\		'markdown': {
-\			'parentheses_options': 'containedin=markdownCode contained',
-\		},
-\		'lisp': {
-\			'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
-\		},
-\		'haskell': {
-\			'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\v\{\ze[^-]/ end=/}/ fold'],
-\		},
-\		'ocaml': {
-\			'parenthess': ['start=/(\ze[^*]/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\[|/ end=/|\]/ fold', 'start=/{/ end=/}/ fold'],
-\		},
-\		'julia': {
-\			'parentheses_options': 'containedin=juliaConditionalBlock,juliaConditionalEIBlock,juliaConditionalEBlock,juliaForBlock,juliaFunctionBlock,juliaWhileBlock,juliaBeginBlock,juliaStructBlock,juliaMutableStructBlock,juliaLetBlock,juliaDoBlock,juliaModuleBlock,juliaExceptionBlock,juliaCatchBlock,juliaFinallyBlock',
-\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/'],
-\		},
-\		'tex': {
-\			'parentheses_options': 'containedin=texDocZone',
-\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
-\		},
-\		'vim': {
-\			'parentheses_options': 'containedin=vimFuncBody,vimExecute',
-\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold'],
-\		},
-\		'xml': {
-\			'syn_name_prefix': 'xmlRainbow',
-\			'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-\		},
-\		'xhtml': {
-\			'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-\		},
-\		'html': {
-\			'parentheses': ['start=/\v\<((script|style|area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-\		},
-\		'perl': {
-\			'syn_name_prefix': 'perlBlockFoldRainbow',
-\		},
-\		'php': {
-\			'syn_name_prefix': 'phpBlockRainbow',
-\			'contains_prefix': '',
-\			'parentheses': ['start=/(/ end=/)/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\[/ end=/\]/ containedin=@htmlPreproc contains=@phpClTop', 'start=/{/ end=/}/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold contains_prefix=TOP'],
-\		},
-\		'stylus': {
-\			'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
-\		},
-\		'css': 0,
-\		'sh': 0,
-\	}
-\}
-
+" let g:rainbow_conf = {
+" \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+" \	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+" \	'guis': [''],
+" \	'cterms': [''],
+" \	'operators': '_,_',
+" \	'contains_prefix': 'TOP',
+" \	'parentheses_options': '',
+" \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+" \	'separately': {
+" \		'*': {},
+" \		'markdown': {
+" \			'parentheses_options': 'containedin=markdownCode contained',
+" \		},
+" \		'lisp': {
+" \			'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+" \		},
+" \		'haskell': {
+" \			'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\v\{\ze[^-]/ end=/}/ fold'],
+" \		},
+" \		'ocaml': {
+" \			'parenthess': ['start=/(\ze[^*]/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\[|/ end=/|\]/ fold', 'start=/{/ end=/}/ fold'],
+" \		},
+" \		'julia': {
+" \			'parentheses_options': 'containedin=juliaConditionalBlock,juliaConditionalEIBlock,juliaConditionalEBlock,juliaForBlock,juliaFunctionBlock,juliaWhileBlock,juliaBeginBlock,juliaStructBlock,juliaMutableStructBlock,juliaLetBlock,juliaDoBlock,juliaModuleBlock,juliaExceptionBlock,juliaCatchBlock,juliaFinallyBlock',
+" \			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/'],
+" \		},
+" \		'tex': {
+" \			'parentheses_options': 'containedin=texDocZone',
+" \			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+" \		},
+" \		'vim': {
+" \			'parentheses_options': 'containedin=vimFuncBody,vimExecute',
+" \			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold'],
+" \		},
+" \		'xml': {
+" \			'syn_name_prefix': 'xmlRainbow',
+" \			'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+" \		},
+" \		'xhtml': {
+" \			'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+" \		},
+" \		'html': {
+" \			'parentheses': ['start=/\v\<((script|style|area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+" \		},
+" \		'perl': {
+" \			'syn_name_prefix': 'perlBlockFoldRainbow',
+" \		},
+" \		'php': {
+" \			'syn_name_prefix': 'phpBlockRainbow',
+" \			'contains_prefix': '',
+" \			'parentheses': ['start=/(/ end=/)/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\[/ end=/\]/ containedin=@htmlPreproc contains=@phpClTop', 'start=/{/ end=/}/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold contains_prefix=TOP'],
+" \		},
+" \		'stylus': {
+" \			'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
+" \		},
+" \		'css': 0,
+" \		'sh': 0,
+" \	}
+" \}
+"
 " ============================================================================
 " NERDTree {{{1
 " ============================================================================
@@ -495,6 +513,11 @@ omap im <Plug>(textobj-sandwich-literal-query-i)
 omap am <Plug>(textobj-sandwich-literal-query-a)
 
 " ============================================================================
+" Autoformat {{{1
+" ============================================================================
+
+nnoremap <leader>af :Autoformat<CR>
+
 " Autopairs {{{1
 " ============================================================================
 
@@ -505,28 +528,7 @@ let g:AutoPairsShortcutBackInsert = '<A-b>'
 " TaskWiki and VimWiki {{{1
 " ============================================================================
 
-autocmd FileType vimwiki setlocal textwidth=100
-autocmd FileType vimwiki setlocal colorcolumn=105
-
-let g:task_rc_override = 'rc.defaultheight=0'
-
-let wiki_1 = {}
-let wiki_1 = {}
-let wiki_1.path = "~/vimwiki/"
-let wiki_1.syntax = 'markdown'
-let wiki_1.index = 'index'
-let wiki_1.ext = '.md'
-
-let wiki_2 = {}
-let wiki_2.path = "~/vimwiki/diary"
-let wiki_2.syntax = 'markdown'
-let wiki_2.index = 'diary'
-let wiki_2.ext = '.md'
-
-let g:vimwiki_list = [wiki_1, wiki_2]
-
-let g:taskwiki_markup_syntax="markdown"
-nnoremap <Leader>td :TaskWikiDone<CR>
+source ~/.config/dotfiles/nvim/plugin_configs/task_wiki.vim
 
 " ============================================================================
 " Version Control {{{1
@@ -625,148 +627,43 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " ============================================================================
 " Autocomplete {{{1
 " ============================================================================
-
-lua << EOF
-    local nvim_lsp = require'nvim_lsp'
-    local on_attach_vim = function()
-        require'diagnostic'.on_attach()
-        require'completion'.on_attach()
-    end
-    nvim_lsp.clangd.setup({on_attach=on_attach_vim})
-    nvim_lsp.texlab.setup({on_attach=on_attach_vim})
-    nvim_lsp.julials.setup({on_attach=on_attach_vim})
-    nvim_lsp.pyls.setup{
-        on_attach=require'diagnostic'.on_attach,
-        settings = {
-            pyls = {
-                configurationSources = {
-                    pycodestyle,
-                    flake8
-                },
-                plugins = {
-                    mccabe = { enabled = false },
-                    preload = { enabled = true },
-                    pycodestyle = {
-                        enabled = true,
-                        ignore = { "E501" },
-                    },
-                    pydocstyle = {
-                        enabled = false,
-                    },
-                    pyflakes = { enabled = true },
-                    pylint = { enabled = false },
-                    rope_completion = { enabled = true },
-                    black = { enabled = false },
-                }
-            }
-        }
-    }
-EOF
-
-" lua << EOF
-"     local nvim_lsp = require'nvim_lsp'
-"     local on_attach_vim = function()
-"         require'diagnostic'.on_attach()
-"     end
-"     nvim_lsp.texlab.setup({on_attach=on_attach_vim})
-"     nvim_lsp.julials.setup({on_attach=on_attach_vim})
-"     nvim_lsp.pyls.setup{
-"         on_attach=require'diagnostic'.on_attach,
-"         settings = {
-"             pyls = {
-"                 configurationSources = {
-"                     pycodestyle,
-"                     flake8
-"                 },
-"                 plugins = {
-"                     mccabe = { enabled = false },
-"                     preload = { enabled = true },
-"                     pycodestyle = {
-"                         enabled = true,
-"                         ignore = { "E501" },
-"                     },
-"                     pydocstyle = {
-"                         enabled = false,
-"                     },
-"                     pyflakes = { enabled = true },
-"                     pylint = { enabled = false },
-"                     rope_completion = { enabled = true },
-"                     black = { enabled = false },
-"                 }
-"             }
-"         }
-"     }
-" EOF
-
-" Use completion-nvim in every buffer
-" autocmd BufEnter * lua require'completion'.on_attach()
-autocmd Filetype julia setlocal omnifunc=v:lua.vim.lsp.omnifunc
-autocmd FileType python setlocal omnifunc=v:lua.vim.lsp.omnifunc
-autocmd FileType tex setlocal omnifunc=v:lua.vim.lsp.omnifunc
-autocmd FileType c,cpp,objc,objcpp setlocal omnifunc=v:lua.vim.lsp.omnifunc
-
-let g:diagnostic_enable_underline = 0
-let g:diagnostic_enable_virtual_text = 0
-let g:diagnostic_auto_popup_while_jump = 0
-" let g:diagnostic_insert_delay = 1
-" let g:diagnostic_trimmed_virtual_text = '20'
-
-let g:completion_timer_cycle = 100 "default value is 80
-let g:completion_auto_change_source = 1
-let g:completion_enable_snippet = 'UltiSnips'
-
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-" Avoid showing message extra message when using completion
-set shortmess+=c
-
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
-
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" let g:completion_confirm_key = "\<C-y>"
-" let g:completion_confirm_key = ""
-" imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-"                  \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
-
-" Preview
-set completeopt-=preview
-" let g:float_preview#docked = 0
-" let g:float_preview#max_width = 100
-
-function! DisableExtras()
-  call nvim_win_set_option(g:float_preview#win, 'number',         v:false)
-  call nvim_win_set_option(g:float_preview#win, 'cursorline',     v:false)
-  call nvim_win_set_option(g:float_preview#win, 'relativenumber', v:false)
-endfunction
-
-autocmd User FloatPreviewWinOpen call DisableExtras()
-
+source ~/.config/dotfiles/nvim/plugin_configs/diagnostic_completion.vim
 " ============================================================================
 " Terminal {{{1
 " ============================================================================
 
 " Where should the terminal open
-let g:neoterm_default_mod = ':vertical'
-let g:neoterm_keep_term_open = 1
-let g:neoterm_autoscroll=1
+" let g:neoterm_default_mod = ':vertical'
+" let g:neoterm_keep_term_open = 1
+" let g:neoterm_autoscroll=1
 
-" Commands to deal with the terminal
-nnoremap <silent> <leader>to :Topen<CR>
-nnoremap <silent> <leader>tc :Tclose<CR>
-nnoremap <silent> <leader>tt :Ttoggle<CR>
-nnoremap <silent> <leader>tk :Tkill<CR>
-nnoremap <silent> <leader>tl :Tclear<CR>
-nnoremap <silent> <leader>ts :T %:p<CR>
-nnoremap <silent> <leader>tp :T python %:p<CR>
-nnoremap <silent> <leader>tj :T julia<CR>
+" Configuration example
+let g:floaterm_keymap_new    = '<leader>fo'
+let g:floaterm_keymap_prev   = '<leader>fn'
+let g:floaterm_keymap_next   = '<leader>fp'
+let g:floaterm_keymap_toggle = '<leader>ft'
+let g:floaterm_keymap_show = '<leader>ff'
+let g:floaterm_keymap_kill = '<leader>fk'
+
+tnoremap <LocalLeader>fu :FloatermUpdate --width=0.3<Cr>
+
+" autocmd FileType python nnoremap <buffer> <silent> <LocalLeader>fo
+"                 \ :FloatermNew! --width=0.3 --wintype=normal --position=right
+"                 \ --name=pyrepl ipython3 --no-autoindent<Cr>
+"
+" autocmd FileType python xnoremap <buffer> <silent> <LocalLeader>fs
+"                 \ :FloatermSend --name=pyrepl<Cr>
+" autocmd FileType python nnoremap <buffer> <silent> <LocalLeader>fs
+"                 \ :FloatermSend --name=pyrepl<Cr>
+"
+" autocmd FileType julia nnoremap <buffer> <silent> <LocalLeader>fo
+"                 \ :FloatermNew! --width=0.3 --wintype=normal --position=right
+"                 \ --name=juliarepl julia<Cr>
+"
+" autocmd FileType julia xnoremap <buffer> <silent> <LocalLeader>fs
+"                 \ :FloatermSend --name=juliarepl<Cr>
+" autocmd FileType julia nnoremap <buffer> <silent> <LocalLeader>fs
+"                 \ :FloatermSend --name=juliarepl<Cr>
 
 " silent! nmap <C-l> :TREPLSendLine<CR>
 " silent! vmap <C-s> :TREPLSendSelection<CR>
@@ -775,6 +672,7 @@ nnoremap <silent> <leader>tj :T julia<CR>
 tnoremap <Esc> <C-\><C-n>
 
 " ============================================================================
+
 " Tmux {{{1
 " ============================================================================
 
@@ -812,9 +710,10 @@ autocmd BufNewFile,BufRead *.py
     \set fileformat=unix
     \set textwidth=92
     \set colorcolumn=93
-    
+
+let g:python3_host_prog="/usr/local/bin/python3"
 let g:python_highlight_all = 1
-autocmd FileType python let g:slime_cell_delimiter = "# %"
+autocmd FileType python let g:slime_cell_delimiter = "# %%"
 
 let g:ipython_cell_delimit_cells_by = 'tags'
 " fix paste issues in ipython
@@ -864,17 +763,21 @@ nmap <Leader>jc <Plug>SlimeSendCell
 nmap <C-l> :silent !tmux send-keys -t "{right-of}" C-l <cr>
 
 let g:JuliaFormatter_options = {
-        \ 'indent'                    : 4,
-        \ 'margin'                    : 92,
-        \ 'always_for_in'             : v:true,
-        \ 'whitespace_typedefs'       : v:false,
-        \ 'whitespace_ops_in_indices' : v:true,
+        \ 'style':                     'blue',
+        \ 'indent':                    4,
+        \ 'margin':                    92,
+        \ 'always_for_in':             v:true,
+        \ 'whitespace_typedefs':       v:false,
+        \ 'whitespace_ops_in_indices': v:true,
         \ }
 
 " normal mode mapping
-nnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(0)<CR>
+nnoremap <localleader>jf :JuliaFormatterFormat<CR>
 " visual mode mapping
-vnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(1)<CR>
+vnoremap <localleader>jf :JuliaFormatterFormat<CR>
+
+" nnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(0)<CR>
+" vnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(1)<CR>
 
 " activate tagbar
 nmap <Leader>tb :TagbarToggle<CR>
@@ -890,11 +793,22 @@ let g:tagbar_type_julia = {
     \ }
 
 " ============================================================================
+" HTML {{{1
+" ============================================================================
+
+source ~/.config/dotfiles/nvim/plugin_configs/emmet-vim.vim
+" ============================================================================
+
 " LaTeX {{{1
 " ============================================================================
 
-autocmd FileType tex setlocal textwidth=90
-autocmd FileType tex setlocal colorcolumn=92
+" if empty(v:servername) && exists('*remote_startserver')
+"     call remote_startserver('VIM')
+" endif
+"
+autocmd FileType tex setlocal textwidth=100
+autocmd FileType tex setlocal colorcolumn=101
+autocmd FileType tex setlocal conceallevel=0
 
 nnoremap <silent> <leader>lc :VimtexCompile<CR>
 nnoremap <silent> <leader>lv :VimtexView<CR>
@@ -904,11 +818,11 @@ nnoremap <silent> <leader>lt :VimtexTocToggle<CR>
 let g:vimtex_compiler_progname='nvr'
 let g:vimtex_view_automatic = 0
 let g:vimtex_quickfix_open_on_warning = 0
-let g:tex_conceal = ""
+" let g:tex_conceal = "admgs"
 
-let g:tex_flavor = "pdflatex"
-" let g:vimtex_compiler_engine='xelatex'
-let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
+" let g:tex_flavor = "pdflatex"
+let g:tex_flavor = "latex"
+" let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
 
 " This is new style
 " call deoplete#custom#var('omni', 'input_patterns', {
@@ -919,35 +833,12 @@ let g:vimtex_compiler_latexmk = {
          \ 'build_dir' : 'build',
          \}
 
-" Skim config
-let g:vimtex_view_general_viewer
-        \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-let g:vimtex_view_general_options = '-r @line @pdf @tex'
-
-" This adds a callback hook that updates Skim after compilation
-let g:vimtex_compiler_callback_hooks = ['UpdateSkim']
-
-function! UpdateSkim(status)
-    if !a:status | return | endif
-
-    let l:out = b:vimtex.out()
-    let l:tex = expand('%:p')
-    let l:cmd = [g:vimtex_view_general_viewer, '-r']
-
-    if !empty(system('pgrep Skim'))
-        call extend(l:cmd, ['-g'])
-    endif
-
-    if has('nvim')
-        call jobstart(l:cmd + [line('.'), l:out, l:tex])
-    elseif has('job')
-        call job_start(l:cmd + [line('.'), l:out, l:tex])
-    else
-        call system(join(l:cmd + [line('.'), shellescpe(l:out), shellescape(l:tex)], ' '))
-    endif
-endfunction
+" let g:vimtex_view_general_viewer = 'zathura'
+" let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_method = 'skim'
 
 " ============================================================================
+
 " Buffers {{{1
 " ============================================================================
 

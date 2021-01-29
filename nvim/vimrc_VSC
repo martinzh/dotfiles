@@ -33,7 +33,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 " UI Layout
-" Plug 'machakann/vim-highlightedyank'
+Plug 'machakann/vim-highlightedyank'
 
 " Code Navigation
 " Plug 'myusuf3/numbers.vim'
@@ -43,10 +43,10 @@ Plug 'machakann/vim-sandwich'
 Plug 'junegunn/vim-easy-align'
 Plug 'jiangmiao/auto-pairs'
 Plug 'asvetliakov/vim-easymotion'
-" Plug 'justinmk/vim-sneak'
 Plug 'chaoren/vim-wordmotion'
 Plug 'ntpeters/vim-better-whitespace'
-" Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
+Plug 'Chiel92/vim-autoformat'
 
 " Python related
 Plug 'vim-python/python-syntax'
@@ -87,7 +87,7 @@ set softtabstop=4
 set textwidth=110
 set colorcolumn=114
 
-" let g:highlightedyank_highlight_duration = 500
+let g:highlightedyank_highlight_duration = 500
 
 " Set up leader key
 let mapleader = "\<Space>"
@@ -110,6 +110,48 @@ nnoremap zk mzyyP`zk
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " ============================================================================
+" VsCode mode notifier {{{1
+" ============================================================================
+" THEME CHANGER
+" function! SetCursorLineNrColorInsert(mode)
+"     " Insert mode: blue
+"     if a:mode == "i"
+"         call VSCodeNotify('nvim-theme.insert')
+"
+"     " Replace mode: red
+"     elseif a:mode == "r"
+"         call VSCodeNotify('nvim-theme.replace')
+"     endif
+" endfunction
+"
+"
+" function! SetCursorLineNrColorVisual()
+"     set updatetime=0
+"     call VSCodeNotify('nvim-theme.visual')
+" endfunction
+"
+" vnoremap <silent> <expr> <SID>SetCursorLineNrColorVisual SetCursorLineNrColorVisual()
+" nnoremap <silent> <script> v v<SID>SetCursorLineNrColorVisual
+" nnoremap <silent> <script> V V<SID>SetCursorLineNrColorVisual
+" nnoremap <silent> <script> <C-v> <C-v><SID>SetCursorLineNrColorVisual
+"
+" function! SetCursorLineNrColorVisual()
+"     set updatetime=0
+"     call VSCodeNotify('nvim-thee.visual')
+" endfunction
+"
+" vnoremap <silent> <expr> <SID>SetCursorLineNrColorVisual SetCursorLineNrColorVisual()
+" nnoremap <silent> <script> v v<SID>SetCursorLineNrColorVisual
+" nnoremap <silent> <script> V V<SID>SetCursorLineNrColorVisual
+" nnoremap <silent> <script> <C-v> <C-v><SID>SetCursorLineNrColorVisual
+"
+"
+" augroup CursorLineNrColorSwap
+"     autocmd!
+"     autocmd InsertEnter * call SetCursorLineNrColorInsert(v:insertmode)
+"     autocmd InsertLeave * call VSCodeNotify('nvim-theme.normal')
+"     autocmd CursorHold * call VSCodeNotify('nvim-theme.normal')
+" augroup END
 " Comments {{{1
 " ============================================================================
 
@@ -142,16 +184,22 @@ let g:strip_whitespace_on_save=1
 " Easymotion {{{1
 " ============================================================================
 
-" highlight Sneak      guifg=white guibg=green  ctermfg=white ctermbg=green
-" highlight SneakScope guifg=red   guibg=yellow ctermfg=red   ctermbg=yellow
+" map <Leader> <Plug>(easymotion-prefix)
 
-" let g:sneak#label = 1
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+" nmap <Leader>f <Plug>(easymotion-overwin-f)
 
-" map s <Plug>Sneak_s
-" map f <Plug>Sneak_f
-" map F <Plug>Sneak_F
-" map t <Plug>Sneak_t
-" map T <Plug>Sneak_T
+" s{char}{char} to move to {char}{char}
+" nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+" nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+" nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " ============================================================================
 " Wordmotion {{{1
@@ -183,6 +231,9 @@ omap im <Plug>(textobj-sandwich-literal-query-i)
 omap am <Plug>(textobj-sandwich-literal-query-a)
 
 " ============================================================================
+" Autoformat {{{1
+" ============================================================================
+nnoremap <leader>af :Autoformat<CR>
 " Autopairs {{{1
 " ============================================================================
 
@@ -226,17 +277,17 @@ autocmd BufRead,BufNewFile *.jl set filetype=julia
 autocmd FileType julia setlocal textwidth=92
 autocmd FileType julia setlocal colorcolumn=93
 
-autocmd FileType julia let g:slime_cell_delimiter = "##"
 let g:julia_cell_delimit_cells_by = 'tags' " Use '##' tags to define cells
 
+autocmd FileType julia nnoremap <Leader>jp :JuliaCellPrevCell<CR>
+autocmd FileType julia nnoremap <Leader>jn :JuliaCellNextCell<CR>
+
+" autocmd FileType julia let g:slime_cell_delimiter = "##"
 " let g:latex_to_unicode_keymap = 1
 
 " map <Leader>jr to run entire file
 " nnoremap <Leader>jr :JuliaCellRun<CR>
 " autocmd FileType julia nnoremap <Leader>jl :JuliaCellClear<CR>
-autocmd FileType julia nnoremap <Leader>jp :JuliaCellPrevCell<CR>
-autocmd FileType julia nnoremap <Leader>jn :JuliaCellNextCell<CR>
-
 " map <Leader>jc to execute the current cell
 " nnoremap <Leader>jc :JuliaCellExecuteCell<CR>
 " map <Leader>jC to execute the current cell and jump to the next cell
@@ -252,56 +303,5 @@ autocmd FileType julia nnoremap <Leader>jn :JuliaCellNextCell<CR>
 
 autocmd FileType tex setlocal textwidth=90
 autocmd FileType tex setlocal colorcolumn=92
-"
-" nnoremap <silent> <leader>lc :VimtexCompile<CR>
-" nnoremap <silent> <leader>lv :VimtexView<CR>
-" nnoremap <silent> <leader>lo :VimtexTocOpen<CR>
-" nnoremap <silent> <leader>lt :VimtexTocToggle<CR>
-"
-" let g:vimtex_compiler_progname='nvr'
-" let g:vimtex_view_automatic = 0
-" let g:vimtex_quickfix_open_on_warning = 0
-" let g:tex_conceal = ""
-"
-" let g:tex_flavor = "pdflatex"
-" " let g:vimtex_compiler_engine='xelatex'
-" let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
-"
-" " This is new style
-" " call deoplete#custom#var('omni', 'input_patterns', {
-" "             \ 'tex': g:vimtex#re#deoplete
-" "             \})
-"
-" let g:vimtex_compiler_latexmk = {
-"          \ 'build_dir' : 'build',
-"          \}
-"
-" " Skim config
-" let g:vimtex_view_general_viewer
-"         \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-" let g:vimtex_view_general_options = '-r @line @pdf @tex'
-"
-" " This adds a callback hook that updates Skim after compilation
-" let g:vimtex_compiler_callback_hooks = ['UpdateSkim']
-"
-" function! UpdateSkim(status)
-"     if !a:status | return | endif
-"
-"     let l:out = b:vimtex.out()
-"     let l:tex = expand('%:p')
-"     let l:cmd = [g:vimtex_view_general_viewer, '-r']
-"
-"     if !empty(system('pgrep Skim'))
-"         call extend(l:cmd, ['-g'])
-"     endif
-"
-"     if has('nvim')
-"         call jobstart(l:cmd + [line('.'), l:out, l:tex])
-"     elseif has('job')
-"         call job_start(l:cmd + [line('.'), l:out, l:tex])
-"     else
-"         call system(join(l:cmd + [line('.'), shellescpe(l:out), shellescape(l:tex)], ' '))
-"     endif
-" endfunction
-"
+
 " ============================================================================
