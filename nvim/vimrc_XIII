@@ -689,11 +689,16 @@ if g:vimIsInTmux == 1
         \'z'    : [ '#(whoami)', '#h #{prefix_highlight}' ]
         \}
   let g:tmuxline_separators = {
-        \ 'left' : "\Ue0bc",
-        \ 'left_alt': "\Ue0bd",
+        \ 'left' : "/",
+        \ 'left_alt': "/",
         \ 'right' : "\ue0ba",
-        \ 'right_alt' : "\Ue0bd",
+        \ 'right_alt' : "\\",
         \ 'space' : ' '}
+        " \ 'left' : "\Ue0bc",
+        " \ 'left_alt': "\Ue0bd",
+        " \ 'right' : "\ue0ba",
+        " \ 'right_alt' : "\Ue0bd",
+        " \ 'space' : ' '}
 endif
 
 " ============================================================================
@@ -711,7 +716,7 @@ autocmd BufNewFile,BufRead *.py
     \set textwidth=92
     \set colorcolumn=93
 
-let g:python3_host_prog="/usr/local/bin/python3"
+let g:python3_host_prog="/usr/bin/python3"
 let g:python_highlight_all = 1
 autocmd FileType python let g:slime_cell_delimiter = "# %%"
 
