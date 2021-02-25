@@ -124,6 +124,7 @@ Plug 'psf/black', { 'branch': 'stable' }
 
 " Syntax
 Plug 'lervag/vimtex'
+Plug 'elzr/vim-json'
 Plug 'mhinz/neovim-remote'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mechatroner/rainbow_csv'
@@ -690,16 +691,11 @@ if g:vimIsInTmux == 1
         \'z'    : [ '#(whoami)', '#h #{prefix_highlight}' ]
         \}
   let g:tmuxline_separators = {
-        \ 'left' : "/",
-        \ 'left_alt': "/",
+        \ 'left' : "\Ue0bc",
+        \ 'left_alt': "\Ue0bd",
         \ 'right' : "\ue0ba",
-        \ 'right_alt' : "\\",
+        \ 'right_alt' : "\Ue0bd",
         \ 'space' : ' '}
-        " \ 'left' : "\Ue0bc",
-        " \ 'left_alt': "\Ue0bd",
-        " \ 'right' : "\ue0ba",
-        " \ 'right_alt' : "\Ue0bd",
-        " \ 'space' : ' '}
 endif
 
 " ============================================================================
@@ -718,11 +714,7 @@ autocmd BufNewFile,BufRead *.py
     \set colorcolumn=89
 
 " let g:black_linelength = 92
-
-" OSX
 let g:python3_host_prog="/usr/local/bin/python3"
-" linux
-" let g:python3_host_prog="/usr/bin/python3"
 let g:python_highlight_all = 1
 autocmd FileType python let g:slime_cell_delimiter = "# %%"
 
