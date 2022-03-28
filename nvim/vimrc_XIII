@@ -50,10 +50,11 @@ Plug 'tpope/vim-fugitive'
 " Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " gives us lists of key bindings
-Plug 'liuchengxu/vim-which-key'
+" Plug 'liuchengxu/vim-which-key'
 
 " Colorschemes
 Plug 'joshdick/onedark.vim'
+Plug 'rebelot/kanagawa.nvim'
 " Plug 'chuling/equinusocio-material.vim'
 " Plug 'sainnhe/edge'
 " Plug 'sainnhe/sonokai'
@@ -95,9 +96,15 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
 
 " Language Server Protocol
-Plug 'neovim/nvim-lsp'
+" Plug 'neovim/nvim-lsp'
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+" Plug 'nvim-lua/completion-nvim'
 
 " File manager
 Plug 'scrooloose/nerdtree'
@@ -113,7 +120,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdcommenter'
-Plug 'chaoren/vim-wordmotion'
+" Plug 'chaoren/vim-wordmotion'
 Plug 'justinmk/vim-sneak'
 Plug 'mattn/emmet-vim'
 Plug 'Chiel92/vim-autoformat'
@@ -144,7 +151,7 @@ Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 " Julia related
 Plug 'mroavi/vim-julia-cell'
 Plug 'JuliaEditorSupport/julia-vim'
-Plug 'kdheepak/JuliaFormatter.vim'
+" Plug 'kdheepak/JuliaFormatter.vim'
 
 " Taskwarrior and Wiki
 Plug 'tbabej/taskwiki'
@@ -202,13 +209,14 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 " Duplicate lines
-nnoremap zj mzyyP`z
-nnoremap zk mzyyP`zk
+nnoremap <Leader>zj mzyyP`z
+nnoremap <Leader>zk mzyyP`zk
 
 " Do not insert comments when opening a line from a commented one
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 nnoremap <Leader>uf :! bash ~/Code/MiscScripts/rsync_figs.sh<CR>
+nnoremap <Leader>uq :! bash ~/Code/MiscScripts/rsync_figs_quetz.sh<CR>
 
 " Sample value, to keep default behaviour don't define this variable
 let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript']
@@ -220,14 +228,14 @@ let g:vimsyn_embed = 'lP'
 " Which Key {{{1
 " ============================================================================
 
-set timeoutlen=500
-
-let g:mapleader = "\<Space>"
-let g:maplocalleader = "\<Space>"
-let g:which_key_map = {}
-call which_key#register('<Space>', "g:which_key_map")
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey '<Space>'<CR>
+" set timeoutlen=500
+"
+" let g:mapleader = "\<Space>"
+" let g:maplocalleader = "\<Space>"
+" let g:which_key_map = {}
+" call which_key#register('<Space>', "g:which_key_map")
+" nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+" nnoremap <silent> <localleader> :<c-u>WhichKey '<Space>'<CR>
 
 " which key can't figure out the easy-motion mappings
 " let g:which_key_map = {" ": 'easy motion (re-input to use)'}
@@ -281,10 +289,30 @@ endif
 " let g:quantum_black = 1
 " colorscheme quantum
 
-let g:onedark_hide_endofbuffer = 1
-let g:onedark_terminal_italics = 1
-colorscheme onedark
+" let g:onedark_hide_endofbuffer = 1
+" let g:onedark_terminal_italics = 1
+" colorscheme onedark
 
+" -- Default options:
+" require('kanagawa').setup({
+"     undercurl = true,           -- enable undercurls
+"     commentStyle = "italic",
+"     functionStyle = "NONE",
+"     keywordStyle = "italic",
+"     statementStyle = "bold",
+"     typeStyle = "NONE",
+"     variablebuiltinStyle = "italic",
+"     specialReturn = true,       -- special highlight for the return keyword
+"     specialException = true,    -- special highlight for exception handling keywords
+"     transparent = false,        -- do not set background color
+"     dimInactive = false,        -- dim inactive window `:h hl-NormalNC`
+"     globalStatus = false,       -- adjust window separators highlight for laststatus=3
+"     colors = {},
+"     overrides = {},
+" })
+
+let g:kangawa_transparent= 0
+colorscheme kanagawa
 " colorscheme embark
 " colorscheme challenger_deep
 
@@ -331,6 +359,8 @@ nmap <leader>n <Plug>vem_next_buffer-
 nnoremap <leader>1 :1tabnext<CR>
 nnoremap <leader>2 :2tabnext<CR>
 nnoremap <leader>3 :3tabnext<CR>
+nnoremap <leader>4 :4tabnext<CR>
+nnoremap <leader>5 :5tabnext<CR>
 
 function! DeleteCurrentBuffer() abort
     let current_buffer = bufnr('%')
@@ -558,6 +588,11 @@ let g:NERDTreeGitIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
+map <leader>go :G<CR>
+map <leader>gc :G commit<CR>
+map <leader>gg :G pull<CR>
+map <leader>gp :G push<CR>
+
 " ============================================================================
 " FZF {{{1
 " ============================================================================
@@ -714,8 +749,8 @@ autocmd BufNewFile,BufRead *.py
     \set expandtab
     \set autoindent
     \set fileformat=unix
-    \set textwidth=88
-    \set colorcolumn=89
+    " \set textwidth=79
+    " \set colorcolumn=10
 
 " let g:black_linelength = 92
 
@@ -819,7 +854,6 @@ source ~/.config/dotfiles/nvim/plugin_configs/emmet-vim.vim
 "
 autocmd FileType tex setlocal textwidth=100
 autocmd FileType tex setlocal colorcolumn=101
-autocmd FileType tex setlocal conceallevel=0
 
 nnoremap <silent> <leader>lc :VimtexCompile<CR>
 nnoremap <silent> <leader>lv :VimtexView<CR>
@@ -829,10 +863,11 @@ nnoremap <silent> <leader>lt :VimtexTocToggle<CR>
 let g:vimtex_compiler_progname='nvr'
 let g:vimtex_view_automatic = 0
 let g:vimtex_quickfix_open_on_warning = 0
-" let g:tex_conceal = "admgs"
+let g:vimtex_syntax_conceal_disable = 1
+" let g:vimtex_syntax_conceal_default = 0
 
 " let g:tex_flavor = "pdflatex"
-let g:tex_flavor = "latex"
+" let g:tex_flavor = "latex"
 " let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
 
 " This is new style
