@@ -53,7 +53,6 @@
 "     )
 " EOF
 
-
 " Use completion-nvim in every buffer
 " autocmd BufEnter * lua require'completion'.on_attach()
 " autocmd Filetype julia  setlocal omnifunc=v:lua.vim.lsp.omnifunc
@@ -102,6 +101,15 @@ nnoremap <silent> gd    <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 set completeopt=menu,menuone,noselect
 set completeopt-=preview
 
+lua << EOF
+-- Diagnostic settings
+vim.diagnostic.config {
+    virtual_text = false,
+    signs = true,
+    underline = false,
+    }
+EOF
+
 lua <<EOF
   -- Setup nvim-cmp.
   local cmp = require'cmp'
@@ -129,7 +137,7 @@ lua <<EOF
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'vsnip' }, -- For vsnip users.
       -- { name = 'luasnip' }, -- For luasnip users.
       { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.
@@ -155,13 +163,13 @@ lua <<EOF
   })
 
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
+--  cmp.setup.cmdline(':', {
+--    sources = cmp.config.sources({
+--      { name = 'path' }
+--    }, {
+--      { name = 'cmdline' }
+--    })
+--  })
 
   -- Setup lspconfig.
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -176,9 +184,3 @@ lua <<EOF
     capabilities = capabilities
   }
 EOF
-
-
-
-
-
-
