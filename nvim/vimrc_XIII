@@ -201,6 +201,9 @@ let g:highlightedyank_highlight_duration = 500
 let mapleader = "\<Space>"
 inoremap jk <ESC>
 
+au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
+
 " Clear highlighted search
 nmap <silent> ,/ :nohlsearch<CR>
 
@@ -1007,9 +1010,9 @@ autocmd BufNewFile,BufRead *.py
 " let g:black_linelength = 92
 
 " OSX
-let g:python3_host_prog="/usr/local/bin/python3"
+" let g:python3_host_prog="/usr/local/bin/python3"
 " linux
-" let g:python3_host_prog="/usr/bin/python3"
+let g:python3_host_prog="/usr/bin/python3"
 let g:python_highlight_all = 1
 autocmd FileType python let g:slime_cell_delimiter = "# %%"
 
@@ -1070,9 +1073,11 @@ let g:JuliaFormatter_options = {
         \ }
 
 " normal mode mapping
-nnoremap <localleader>jf :JuliaFormatterFormat<CR>
+" nnoremap <localleader>jf :JuliaFormatterFormat<CR>
+nnoremap <Leader>jf :JuliaFormatterFormat<CR>
 " visual mode mapping
-vnoremap <localleader>jf :JuliaFormatterFormat<CR>
+" vnoremap <localleader>jf :JuliaFormatterFormat<CR>
+vnoremap <Leader>jf :JuliaFormatterFormat<CR>
 
 " nnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(0)<CR>
 " vnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(1)<CR>
