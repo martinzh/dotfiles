@@ -82,6 +82,8 @@ Plug 'voldikss/vim-floaterm'
 
 " colors
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
 
 " Autocomplete
 Plug 'SirVer/ultisnips'
@@ -627,67 +629,6 @@ function! DeleteCurrentBuffer() abort
 endfunction
 nmap <leader>d :call DeleteCurrentBuffer()<CR>
 
-" let g:rainbow_conf = {
-" \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-" \	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-" \	'guis': [''],
-" \	'cterms': [''],
-" \	'operators': '_,_',
-" \	'contains_prefix': 'TOP',
-" \	'parentheses_options': '',
-" \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-" \	'separately': {
-" \		'*': {},
-" \		'markdown': {
-" \			'parentheses_options': 'containedin=markdownCode contained',
-" \		},
-" \		'lisp': {
-" \			'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
-" \		},
-" \		'haskell': {
-" \			'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\v\{\ze[^-]/ end=/}/ fold'],
-" \		},
-" \		'ocaml': {
-" \			'parenthess': ['start=/(\ze[^*]/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\[|/ end=/|\]/ fold', 'start=/{/ end=/}/ fold'],
-" \		},
-" \		'julia': {
-" \			'parentheses_options': 'containedin=juliaConditionalBlock,juliaConditionalEIBlock,juliaConditionalEBlock,juliaForBlock,juliaFunctionBlock,juliaWhileBlock,juliaBeginBlock,juliaStructBlock,juliaMutableStructBlock,juliaLetBlock,juliaDoBlock,juliaModuleBlock,juliaExceptionBlock,juliaCatchBlock,juliaFinallyBlock',
-" \			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/'],
-" \		},
-" \		'tex': {
-" \			'parentheses_options': 'containedin=texDocZone',
-" \			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
-" \		},
-" \		'vim': {
-" \			'parentheses_options': 'containedin=vimFuncBody,vimExecute',
-" \			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold'],
-" \		},
-" \		'xml': {
-" \			'syn_name_prefix': 'xmlRainbow',
-" \			'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-" \		},
-" \		'xhtml': {
-" \			'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-" \		},
-" \		'html': {
-" \			'parentheses': ['start=/\v\<((script|style|area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-" \		},
-" \		'perl': {
-" \			'syn_name_prefix': 'perlBlockFoldRainbow',
-" \		},
-" \		'php': {
-" \			'syn_name_prefix': 'phpBlockRainbow',
-" \			'contains_prefix': '',
-" \			'parentheses': ['start=/(/ end=/)/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\[/ end=/\]/ containedin=@htmlPreproc contains=@phpClTop', 'start=/{/ end=/}/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold contains_prefix=TOP'],
-" \		},
-" \		'stylus': {
-" \			'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
-" \		},
-" \		'css': 0,
-" \		'sh': 0,
-" \	}
-" \}
-"
 " ============================================================================
 " NERDTree {{{1
 " ============================================================================
@@ -708,7 +649,7 @@ let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 
 " ============================================================================
-" NERDcommenter {{{1
+" Comments Config {{{1
 " ============================================================================
 
 " Add a space between comment delimiter and comment
@@ -719,6 +660,14 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDDefaultAlign = 'left'
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
+
+lua << EOF
+  require("todo-comments").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
 
 " ============================================================================
 " Snippets {{{1
@@ -1010,9 +959,9 @@ autocmd BufNewFile,BufRead *.py
 " let g:black_linelength = 92
 
 " OSX
-" let g:python3_host_prog="/usr/local/bin/python3"
+let g:python3_host_prog="/usr/local/bin/python3"
 " linux
-let g:python3_host_prog="/usr/bin/python3"
+" let g:python3_host_prog="/usr/bin/python3"
 let g:python_highlight_all = 1
 autocmd FileType python let g:slime_cell_delimiter = "# %%"
 
