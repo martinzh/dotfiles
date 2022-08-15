@@ -88,8 +88,8 @@ Plug 'folke/todo-comments.nvim'
 " Autocomplete
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-" Plug 'hrsh7th/vim-vsnip'
-" Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 " Plug 'zchee/deoplete-jedi'
 " Plug 'Shougo/deoplete-lsp'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -128,7 +128,7 @@ Plug 'scrooloose/nerdcommenter'
 " Plug 'chaoren/vim-wordmotion'
 Plug 'justinmk/vim-sneak'
 Plug 'mattn/emmet-vim'
-Plug 'Chiel92/vim-autoformat'
+" Plug 'Chiel92/vim-autoformat'
 Plug 'psf/black', { 'branch': 'stable' }
 " Plug 'luochen1990/rainbow'
 " Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -150,7 +150,7 @@ Plug 'majutsushi/tagbar'
 
 " Python related
 Plug 'vim-python/python-syntax'
-Plug 'Vimjas/vim-python-pep8-indent'
+" Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
 " Julia related
@@ -163,6 +163,9 @@ Plug 'tbabej/taskwiki'
 Plug 'blindFS/vim-taskwarrior'
 Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'vimwiki/vimwiki', { 'as' : 'vimwiki', 'branch' : 'dev'}
+
+" Buffers placement
+Plug 'smithbm2316/centerpad.nvim'
 
 call plug#end()
 
@@ -1000,10 +1003,13 @@ autocmd FileType julia nnoremap <Leader>jn :JuliaCellNextCell<CR>
 " map <Leader>jC to execute the current cell and jump to the next cell
 " nnoremap <Leader>jC :JuliaCellExecuteCellJump<CR>
 
-" let g:slime_target = 'neovim'
 let g:slime_target = 'tmux'
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
 let g:slime_dont_ask_default = 1
+
+" let g:slime_target = "kitty"
+" let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+" let g:slime_dont_ask_default = 1
 
 nmap <Leader>js <Plug>SlimeLineSend
 xmap <Leader>js <Plug>SlimeRegionSend
